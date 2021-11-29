@@ -71,6 +71,7 @@ char    *ft_join(char *save, char *str)
         y++;
     }
     aux[x] = 0;
+    free(save);
     return (aux);
 }
 
@@ -97,6 +98,7 @@ char    *get_new_save(char *save)
         x++;
     }
     nsave[y] = 0;
+    free(save);
     return (nsave);
 }
 
@@ -130,6 +132,8 @@ char    *get_next_line(int fd)
     int         buf;
 
     buf = 1;
+    if (!fd)
+        return (0);
     str = malloc(sizeof (char) * BUFFER_SIZE + 1);
     if (!save)
         save = malloc(sizeof (char) * BUFFER_SIZE + 1);
