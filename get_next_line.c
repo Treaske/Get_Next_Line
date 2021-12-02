@@ -198,10 +198,7 @@ char    *get_next_line(int fd)
     }*/
     str = malloc(sizeof (char) * BUFFER_SIZE + 1);
     if (!save)
-    {
-        printf("ss\n\n");
         save = malloc(sizeof (char) * BUFFER_SIZE + 1);
-    }
     while (check_jump(save) == 0 && buf > 0)
     {
         buf = read(fd, str, BUFFER_SIZE);
@@ -226,6 +223,8 @@ char    *get_next_line(int fd)
 
         len = length(save);
         str = malloc(sizeof (char) * len + 1);
+        if (!str)
+            return (0);
         str[len] = 0;
         len = 0;
         while (save[len] != 0)
@@ -260,5 +259,4 @@ int main(void)
     close(fd);
     return (0);
 }*/
-~
 ~
