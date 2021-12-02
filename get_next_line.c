@@ -152,6 +152,37 @@ static char *free_save(char *save)
     return (0);
 }
 
+/*char  *send_ret(char *save, char *str)
+{
+    if (check_jump(save) != 0)
+    {
+        str = take_line(save);
+        save = get_new_save(save);
+        return (str);
+    }
+    else if (save[0] == 0)
+    {
+        free_save(save);
+        return (0);
+    }
+    else
+    {
+        int len;
+
+        len = length(save);
+        str = malloc(sizeof (char) * len + 1);
+        str[len] = 0;
+        len = 0;
+        while (save[len] != 0)
+        {
+            str[len] = save[len];
+            len++;
+        }
+        save = free_save(save);
+        return (str);
+    }
+}*/
+
 char    *get_next_line(int fd)
 {
     static char *save;
@@ -159,26 +190,21 @@ char    *get_next_line(int fd)
     int         buf;
 
     buf = 1;
-    if (!fd)
+    /*if (fd = 0)
+    {
+        printf("%i\n", fd);
+        printf("\n\n\n\n-------------wow--------\n\n\n\n");
         return (0);
+    }*/
     str = malloc(sizeof (char) * BUFFER_SIZE + 1);
     if (!save)
+    {
+        printf("ss\n\n");
         save = malloc(sizeof (char) * BUFFER_SIZE + 1);
+    }
     while (check_jump(save) == 0 && buf > 0)
     {
         buf = read(fd, str, BUFFER_SIZE);
-        if (buf <= 0)
-        {
-            break ;
-            /*if (save[0] == 0)
-            {
-                free(str);
-                return (0);
-            }
-            free(str);
-            str = get_no_jump(save);
-            return (str);*/
-        }
         str[buf] = 0;
         save = ft_join(save, str);
     }
@@ -191,7 +217,7 @@ char    *get_next_line(int fd)
     }
     else if (save[0] == 0)
     {
-        free(save);
+        free_save(save);
         return (0);
     }
     else
@@ -234,3 +260,5 @@ int main(void)
     close(fd);
     return (0);
 }*/
+~
+~
