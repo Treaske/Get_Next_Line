@@ -82,11 +82,11 @@ char    *get_new_save(char *save)
     int     y;
 
     x = 0;
-    y = 0;
+    y = length(save);
     while (save[x] != '\n')
         x++;
     x++;
-    y = length(save) - x;
+    y = y - x;
     nsave = malloc(sizeof (char) * y + 1);
     if (!nsave)
         return (0);
@@ -125,6 +125,33 @@ char    *take_line(char *save)
     return (line);
 }
 
+char    *get_no_jump(char *save)
+{
+    char    *str;
+    int     x;
+    int     y;
+
+    x = length(save);
+    y = 0;
+    str = malloc(sizeof (char) * x + 1);
+    if (!str)
+        return (0);
+    while (y < x)
+    {
+        str[y] = save[y];
+        y++;
+    }
+    str[x] = 0;
+    free(save);
+    return (str);
+}
+
+static char *free_save(char *save)
+{
+    free(save);
+    return (0);
+}
+
 char    *get_next_line(int fd)
 {
     static char *save;
@@ -140,6 +167,18 @@ char    *get_next_line(int fd)
     while (check_jump(save) == 0 && buf > 0)
     {
         buf = read(fd, str, BUFFER_SIZE);
+        if (buf <= 0)
+        {
+            break ;
+            /*if (save[0] == 0)
+            {
+                free(str);
+                return (0);
+            }
+            free(str);
+            str = get_no_jump(save);
+            return (str);*/
+        }
         str[buf] = 0;
         save = ft_join(save, str);
     }
@@ -150,8 +189,30 @@ char    *get_next_line(int fd)
         save = get_new_save(save);
         return (str);
     }
+    else if (save[0] == 0)
+    {
+        free(save);
+        return (0);
+    }
+    else
+    {
+        int len;
+
+        len = length(save);
+        str = malloc(sizeof (char) * len + 1);
+        str[len] = 0;
+        len = 0;
+        while (save[len] != 0)
+        {
+            str[len] = save[len];
+            len++;
+        }
+        save = free_save(save);
+        return (str);
+    }
     return (0);
 }
+
 /*
 int main(void)
 {
@@ -160,7 +221,7 @@ int main(void)
     char    *str;
 
     cont = 0;
-    fd = open("lines.txt", O_RDONLY);
+    fd = open("41_with_nl", O_RDONLY);
     str = get_next_line(fd);
     while (str)
     {
