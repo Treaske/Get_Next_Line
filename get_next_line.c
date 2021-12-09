@@ -189,37 +189,25 @@ char    *get_next_line(int fd)
     char        *str;
     int         buf;
 
-    buf = 1;
-    /*if (fd = 0)
-    {
-        printf("%i\n", fd);
-        printf("\n\n\n\n-------------wow--------\n\n\n\n");
-        return (0);
-    }*/
     str = malloc(sizeof (char) * BUFFER_SIZE + 1);
     if (!save)
+    {
+        printf("   h o l a         ");
         save = malloc(sizeof (char) * BUFFER_SIZE + 1);
-    while (check_jump(save) == 0 && buf > 0)
+    }
+    if(!save || BUFFER_SIZE <= 0 || !str)
+        return 0;
+    while (check_jump(save) == 0)
     {
         buf = read(fd, str, BUFFER_SIZE);
+        if (buf <= 0)
+            break ;
         str[buf] = 0;
         save = ft_join(save, str);
     }
     free(str);
-    if (check_jump(save) != 0)
-    {
-        str = take_line(save);
-        save = get_new_save(save);
-        return (str);
-    }
-    else if (save[0] == 0)
-    {
-        free_save(save);
-        return (0);
-    }
-    else
-    {
-        int len;
+
+    int len;
 
         len = length(save);
         str = malloc(sizeof (char) * len + 1);
@@ -234,8 +222,38 @@ char    *get_next_line(int fd)
         }
         save = free_save(save);
         return (str);
+
+    if (check_jump(save) != 0)
+    {
+        str = take_line(save);
+        save = get_new_save(save);
+        return (str);
     }
-    return (0);
+    else
+    {
+        free(save);
+        save = 0;
+    }
+/*        int len;
+
+        if (save[0] == 0)
+        {
+            free(save);
+            return (0);
+        }
+        len = length(save);
+        str = malloc(sizeof (char) * len + 1);
+        if (!str)
+            return (0);
+        str[len] = 0;
+        len = 0;
+        while (save[len] != 0)
+        {
+            str[len] = save[len];
+            len++;
+        }
+        save = free_save(save);
+        return (str);*/
 }
 
 /*
@@ -258,5 +276,5 @@ int main(void)
     free(str);
     close(fd);
     return (0);
-}*/
-~
+    }
+*/
