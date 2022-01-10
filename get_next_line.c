@@ -66,7 +66,7 @@ char    *get_no_jump(char *save)
         return (0);
     str[x] = 0;
     x = 0;
-    while (str[x] != 0)
+    while (save[x] != 0)
     {
         str[x] = save[x];
         x++;
