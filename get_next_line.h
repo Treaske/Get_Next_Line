@@ -17,8 +17,11 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-#include <fcntl.h>
+# include <fcntl.h>
 
-char	*get_next_line(int fd);
+char    *get_next_line(int fd);
+int     length(char *str);
+int     check_jump(char *save);
+char    *ft_join(char *save, char *str);
 
 #endif
